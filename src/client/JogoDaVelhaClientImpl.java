@@ -22,8 +22,8 @@ public class JogoDaVelhaClientImpl extends JFrame implements JogoDaVelhaClient {
 
         try {
             jogoDaVelhaService = (JogoDaVelhaService) Naming.lookup("rmi://localhost:1099/JogoDaVelhaService");
-            JogoDaVelhaClient cliente = (JogoDaVelhaClient) UnicastRemoteObject.exportObject(this, 0);
-            jogoDaVelhaService.registrarCliente(cliente);
+            UnicastRemoteObject.exportObject(this, 0);
+            jogoDaVelhaService.registrarCliente(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,7 +58,7 @@ public class JogoDaVelhaClientImpl extends JFrame implements JogoDaVelhaClient {
     }
 
     @Override
-    public void atualizaTabuleiro(char[][] tabuleiro) throws RemoteException {
+    public void atualizaTabuleiro(char[][] tabuleiro) {
         SwingUtilities.invokeLater(() -> {
             for (int linha = 0; linha < 3; linha++) {
                 for (int coluna = 0; coluna < 3; coluna++) {
@@ -80,7 +80,7 @@ public class JogoDaVelhaClientImpl extends JFrame implements JogoDaVelhaClient {
     }
 
     @Override
-    public void notificaVencedor(char vencedor) throws RemoteException {
+    public void notificaVencedor(char vencedor) {
         SwingUtilities.invokeLater(() -> {
             String mensagem;
             if (vencedor != 'E') {
@@ -94,7 +94,7 @@ public class JogoDaVelhaClientImpl extends JFrame implements JogoDaVelhaClient {
                     jogoDaVelhaService.pararServidor();
                     System.exit(0);
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    System.exit(0);
                 }
             } else {
                 try {
@@ -107,7 +107,7 @@ public class JogoDaVelhaClientImpl extends JFrame implements JogoDaVelhaClient {
     }
 
     @Override
-    public void notificaEmpate() throws RemoteException {
+    public void notificaEmpate() {
         notificaVencedor('E');
     }
 
