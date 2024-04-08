@@ -73,21 +73,25 @@ public class JogoDaVelhaServiceImpl extends UnicastRemoteObject implements JogoD
 
     @Override
     public char verificaGanhadorHorizontal() throws RemoteException {
-        for(int linha = 0; linha < 3; linha++) {
-            if(tabuleiro[linha][0] == tabuleiro[linha][1] && tabuleiro[linha][1] == tabuleiro[linha][2]) {
-                return tabuleiro[linha][0];
+        for(int coluna = 0; coluna < 3; coluna++) {
+            if(tabuleiro[0][coluna] != 0 && tabuleiro[0][coluna] == tabuleiro[1][coluna]
+                    && tabuleiro[1][coluna] == tabuleiro[2][coluna]) {
+                return tabuleiro[0][coluna];
             }
         }
+
         return 0;
     }
 
     @Override
     public char verificaGanhadorVertical() throws RemoteException {
-        for(int coluna = 0; coluna < 3; coluna++) {
-            if(tabuleiro[0][coluna] == tabuleiro[1][coluna] && tabuleiro[1][coluna] == tabuleiro[2][coluna]) {
-                return tabuleiro[0][coluna];
+        for(int linha = 0; linha < 3; linha++) {
+            if(tabuleiro[linha][0] != 0 && tabuleiro[linha][0] == tabuleiro[linha][1]
+                    && tabuleiro[linha][1] == tabuleiro[linha][2]) {
+                return tabuleiro[linha][0];
             }
         }
+
         return 0;
     }
 
@@ -130,8 +134,6 @@ public class JogoDaVelhaServiceImpl extends UnicastRemoteObject implements JogoD
                     } else {
                         cliente.notificaVencedor(resultado);
                     }
-
-
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
